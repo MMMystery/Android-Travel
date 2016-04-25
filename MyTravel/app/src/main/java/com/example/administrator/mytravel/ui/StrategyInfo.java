@@ -7,6 +7,8 @@ import android.net.Uri;
  */
 public class StrategyInfo {
     private String strategyTitle;
+    private String strategyContent;
+    private Uri imageUri;
 
     public String getStrategyTitle() {
         return strategyTitle;
@@ -32,7 +34,6 @@ public class StrategyInfo {
         this.imageUri = imageUri;
     }
 
-    private String strategyContent;
-    private Uri imageUri;
+
 
 }

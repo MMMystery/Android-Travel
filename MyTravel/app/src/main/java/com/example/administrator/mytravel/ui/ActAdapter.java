@@ -1,6 +1,7 @@
 package com.example.administrator.mytravel.ui;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +12,16 @@ import android.widget.TextView;
 import com.example.administrator.mytravel.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/10.
  */
 public class ActAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<ActInfo> list;
+    private List<ActInfo> list;
 
-    public ActAdapter(Context context, ArrayList<ActInfo> list) {
+    public ActAdapter(Context context, List<ActInfo> list) {
         this.context = context;
         this.list = list;
     }
@@ -62,7 +63,7 @@ public class ActAdapter extends BaseAdapter {
         holder.tv_title.setText("标题："+list.get(position).getActTitle());
         holder.tv_time.setText("时间："+list.get(position).getActTime());
         holder.tv_num.setText("人数："+list.get(position).getActNum());
-        Picasso.with(context).load(list.get(position).getImageUri()).into(holder.iv_img);
+        Picasso.with(context).load(Uri.parse(list.get(position).getActImageUri())).into(holder.iv_img);
 
         return convertView;
     }

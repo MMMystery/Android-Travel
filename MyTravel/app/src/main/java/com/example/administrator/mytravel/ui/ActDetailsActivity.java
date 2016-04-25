@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.mytravel.R;
+import com.example.administrator.mytravel.dao.ActDAO;
 import com.squareup.picasso.Picasso;
 
 public class ActDetailsActivity extends AppCompatActivity {
@@ -22,6 +23,8 @@ public class ActDetailsActivity extends AppCompatActivity {
     private TextView tv_time;
     private TextView tv_content;
     private ImageView detail_iv_img;
+
+    ActDAO actDAO = new ActDAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +57,18 @@ public class ActDetailsActivity extends AppCompatActivity {
             }
         });
 
-        Bundle bundle = this.getIntent().getExtras();
-        String title  = bundle.getString("title");
-        String address  = bundle.getString("address");
-        String num  = bundle.getString("num");
-        String time  = bundle.getString("time");
-        String content  = bundle.getString("content");
-        Uri uri  = Uri.parse(bundle.getString("uri"));
 
-        tv_people.setText(title);
-        tv_address.setText(address);
-        tv_num.setText(num);
-        tv_time.setText(time);
-        tv_content.setText(content);
-        Picasso.with(this).load(uri).into(detail_iv_img);
+
+        Bundle bundle = this.getIntent().getExtras();
+        String _id  = bundle.getString("_id");
+
+        ActInfo actInfo = actDAO.find(Integer.parseInt(_id));
+
+        tv_people.setText(actInfo.getUsername());
+        tv_address.setText(actInfo.getActAddress());
+        tv_num.setText(actInfo.getActNum());
+        tv_time.setText(actInfo.getActTime());
+        tv_content.setText(actInfo.getActContent());
+        Picasso.with(this).load(Uri.parse(actInfo.getActImageUri())).into(detail_iv_img);
     }
 }

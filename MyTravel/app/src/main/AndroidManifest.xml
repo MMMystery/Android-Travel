@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.MainActivity">
 
+
         </activity>
         <activity
             android:name=".ui.ActListActivity"
@@ -40,6 +41,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:label="@string/title_activity_login">
+
         </activity>
 
     </application>

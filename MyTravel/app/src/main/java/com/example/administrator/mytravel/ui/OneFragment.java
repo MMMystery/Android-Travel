@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.mytravel.R;
+import com.example.administrator.mytravel.dao.ActDAO;
+import com.example.administrator.mytravel.util.SPUtils;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.squareup.picasso.Picasso;
@@ -36,7 +38,7 @@ public class OneFragment extends Fragment {
     private Button topBar_bt_left;
     private ImageView iv_img;
 
-    private Uri imageUri;
+    private String actImageUri;
 
 
     @Override
@@ -69,18 +71,22 @@ public class OneFragment extends Fragment {
         topBar_bt_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ActDAO actDAO = new ActDAO(getActivity());
+                // 创建Tb_inaccount对象
+                ActInfo actInfo = new ActInfo(
+                        actDAO.getMaxId() + 1,
+                        String.valueOf(SPUtils.get(getActivity(),"username","小包子")),
+                        et_one.getText().toString(),
+                        et_two.getText().toString(),
+                        et_three.getText().toString(),
+                        et_four.getText().toString(),
+                        et_five.getText().toString(),
+                        actImageUri.toString());
+                actDAO.add(actInfo);// 添加收入信息
+
+
                 Intent intent = new Intent(getActivity(), ActListActivity.class);
-                //每次点击给添加一组数据
-
-                Bundle bundle = new Bundle();
-                bundle.putString("title", et_one.getText().toString());
-                bundle.putString("address", et_two.getText().toString());
-                bundle.putString("num", et_three.getText().toString());
-                bundle.putString("time", et_four.getText().toString());
-                bundle.putString("content", et_five.getText().toString());
-                bundle.putString("uri", String.valueOf(imageUri));
-                intent.putExtras(bundle);
-
                 startActivity(intent);
 
             }
@@ -136,8 +142,8 @@ public class OneFragment extends Fragment {
                     }
                     File file = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
 
-                     imageUri = Uri.fromFile(file);
-                    Picasso.with(getActivity()).load(imageUri).into(iv_img);
+                    actImageUri = String.valueOf(Uri.fromFile(file));
+                    Picasso.with(getActivity()).load(Uri.parse(actImageUri)).into(iv_img);
 
                 }
                 break;
@@ -148,8 +154,8 @@ public class OneFragment extends Fragment {
                         Toast.makeText(getActivity(), "SD不可用", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    imageUri = data.getData();
-                    Picasso.with(getActivity()).load(imageUri).into(iv_img);
+                    actImageUri = String.valueOf(data.getData());
+                    Picasso.with(getActivity()).load(Uri.parse(actImageUri)).into(iv_img);
                 }
 
                 break;

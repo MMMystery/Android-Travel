@@ -1,7 +1,6 @@
 package com.example.administrator.mytravel.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,13 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.administrator.mytravel.R;
+import com.example.administrator.mytravel.dao.ActDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private ListView lv_all;
-    private ArrayList<ActInfo> list = new ArrayList<ActInfo>();
-    private ActInfo actInfo;
+    private List<ActInfo> list = new ArrayList<ActInfo>();
     private ActAdapter actAdapter;
     private TextView topBar_tv_title;
     private Button topBar_bt_right;
@@ -29,27 +29,13 @@ public class ActListActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_act_list);
 
 
-        Bundle bundle = this.getIntent().getExtras();
-        String title  = bundle.getString("title");
-        String address  = bundle.getString("address");
-        String num  = bundle.getString("num");
-        String time  = bundle.getString("time");
-        String content  = bundle.getString("content");
-        Uri uri  = Uri.parse(bundle.getString("uri"));
-
-        ActInfo actInfo = new ActInfo();
-        actInfo.setActTitle(title);
-        actInfo.setActAdress(address);
-        actInfo.setActNum(num);
-        actInfo.setActTime(time);
-        actInfo.setActContent(content);
-        actInfo.setImageUri(uri);
-
-        list.add(actInfo);
 
         initView();
 
+
     }
+
+
 
 
     private void initView() {
@@ -68,6 +54,17 @@ public class ActListActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
+        //展示信息
+        showInfo();
+
+
+    }
+
+    private void showInfo() {
+
+        ActDAO actDAO = new ActDAO(this);// 创建InaccountDAO对象
+        // 获取所有收入信息，并存储到List泛型集合中
+        list = actDAO.getScrollData(0, (int) actDAO.getCount());
         actAdapter = new ActAdapter(this,list);
         lv_all.setAdapter(actAdapter);
     }
@@ -76,16 +73,9 @@ public class ActListActivity extends AppCompatActivity implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(ActListActivity.this,ActDetailsActivity.class);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("title", list.get(position).getActTitle());
-        bundle.putString("address", list.get(position).getActAdress());
-        bundle.putString("num", list.get(position).getActNum());
-        bundle.putString("time", list.get(position).getActTime());
-        bundle.putString("content", list.get(position).getActContent());
-        bundle.putString("uri", String.valueOf(list.get(position).getImageUri()));
+        intent.putExtra("_id", String.valueOf(list.get(position).get_id()));// 设置传递数据
+        startActivity(intent);// 执行Intent操作
 
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
 }

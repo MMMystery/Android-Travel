@@ -1,24 +1,51 @@
 package com.example.administrator.mytravel.ui;
 
-import android.net.Uri;
-
 /**
  * Created by Administrator on 2016/4/10.
  */
 public class ActInfo {
+    private int _id;
+    private String username;
     private String actTitle;
-    private String actAdress;
+    private String actAddress;
     private String actNum;
     private String actTime;
     private String actContent;
-    private Uri imageUri;
+    private String actImageUri;
 
-    public Uri getImageUri() {
-        return imageUri;
+    public ActInfo(int _id,String username,String actTitle, String actAddress, String actNum, String actTime, String actContent, String actImageUri) {
+        this._id = _id;
+        this.username = username;
+        this.actTitle = actTitle;
+        this.actAddress = actAddress;
+        this.actNum = actNum;
+        this.actTime = actTime;
+        this.actContent = actContent;
+        this.actImageUri = actImageUri;
     }
 
-    public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getActImageUri() {
+        return actImageUri;
+    }
+
+    public void setActImageUri(String actImageUri) {
+        this.actImageUri = actImageUri;
+    }
+
+    public int get_id() {
+        return _id;
+    }
+
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
     public String getActTitle() {
@@ -29,13 +56,7 @@ public class ActInfo {
         this.actTitle = actTitle;
     }
 
-    public String getActAdress() {
-        return actAdress;
-    }
 
-    public void setActAdress(String actAdress) {
-        this.actAdress = actAdress;
-    }
 
     public String getActNum() {
         return actNum;
@@ -59,5 +80,13 @@ public class ActInfo {
 
     public void setActContent(String actContent) {
         this.actContent = actContent;
+    }
+
+    public String getActAddress() {
+        return actAddress;
+    }
+
+    public void setActAddress(String actAddress) {
+        this.actAddress = actAddress;
     }
 }
