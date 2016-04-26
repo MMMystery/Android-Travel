@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.mytravel.R;
+import com.example.administrator.mytravel.dao.StrategyDAO;
+import com.example.administrator.mytravel.util.SPUtils;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.squareup.picasso.Picasso;
@@ -36,7 +38,7 @@ public class TwoFragment extends Fragment {
     private Button topBar_bt_left;
     private ImageView iv_img;
 
-    private Uri imageUri;
+    private String strategyImageUri;
 
 
     @Override
@@ -67,15 +69,17 @@ public class TwoFragment extends Fragment {
         topBar_bt_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                StrategyDAO strategyDAO = new StrategyDAO(getActivity());
+                StrategyInfo strategyInfo = new StrategyInfo(
+                        strategyDAO.getMaxId() + 1,
+                        String.valueOf(SPUtils.get(getActivity(),"username","小包子")),
+                        et_one.getText().toString(),
+                        et_two.getText().toString(),
+                        strategyImageUri);
+                strategyDAO.add(strategyInfo);
+
                 Intent intent = new Intent(getActivity(), StrategyListActivity.class);
-                //每次点击给添加一组数据
-
-                Bundle bundle = new Bundle();
-                bundle.putString("title", et_one.getText().toString());
-                bundle.putString("content", et_two.getText().toString());
-                bundle.putString("uri", String.valueOf(imageUri));
-                intent.putExtras(bundle);
-
                 startActivity(intent);
             }
         });
@@ -130,8 +134,8 @@ public class TwoFragment extends Fragment {
                     }
                     File file = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
 
-                     imageUri = Uri.fromFile(file);
-                    Picasso.with(getActivity()).load(imageUri).into(iv_img);
+                    strategyImageUri = String.valueOf(Uri.fromFile(file));
+                    Picasso.with(getActivity()).load(strategyImageUri).into(iv_img);
 
                 }
                 break;
@@ -142,8 +146,8 @@ public class TwoFragment extends Fragment {
                         Toast.makeText(getActivity(), "SD不可用", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    imageUri = data.getData();
-                    Picasso.with(getActivity()).load(imageUri).into(iv_img);
+                    strategyImageUri = String.valueOf(data.getData());
+                    Picasso.with(getActivity()).load(strategyImageUri).into(iv_img);
                 }
 
                 break;

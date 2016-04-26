@@ -1,7 +1,6 @@
 package com.example.administrator.mytravel.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,13 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.administrator.mytravel.R;
+import com.example.administrator.mytravel.dao.StrategyDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StrategyListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private ListView lv_all;
-    private ArrayList<StrategyInfo> list = new ArrayList<StrategyInfo>();
-    private StrategyInfo strategyInfo;
+    private List<StrategyInfo> list = new ArrayList<StrategyInfo>();
     private StrategyAdapter strategyAdapter;
     private TextView topBar_tv_title;
     private Button topBar_bt_right;
@@ -28,18 +28,6 @@ public class StrategyListActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strategy_list);
 
-
-        Bundle bundle = this.getIntent().getExtras();
-        String title  = bundle.getString("title");
-        String content  = bundle.getString("content");
-        Uri uri  = Uri.parse(bundle.getString("uri"));
-
-        StrategyInfo strategyInfo = new StrategyInfo();
-        strategyInfo.setStrategyTitle(title);
-        strategyInfo.setStrategyContent(content);
-        strategyInfo.setImageUri(uri);
-
-        list.add(strategyInfo);
 
         initView();
 
@@ -62,20 +50,26 @@ public class StrategyListActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
+        showInfo();
+
+
+    }
+
+    private void showInfo() {
+
+        StrategyDAO stratrgyDAO = new StrategyDAO(this);
+        list = stratrgyDAO.getScrollData(0, (int)stratrgyDAO.getCount());
+
         strategyAdapter = new StrategyAdapter(this,list);
         lv_all.setAdapter(strategyAdapter);
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(StrategyListActivity.this,StrategyDetailsActivity.class);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("title", list.get(position).getStrategyTitle());
-        bundle.putString("content", list.get(position).getStrategyContent());
-        bundle.putString("uri", String.valueOf(list.get(position).getImageUri()));
-
-        intent.putExtras(bundle);
+        intent.putExtra("_id", String.valueOf(list.get(position).get_id()));// 设置传递数据
         startActivity(intent);
     }
 

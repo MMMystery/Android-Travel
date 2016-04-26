@@ -1,6 +1,7 @@
 package com.example.administrator.mytravel.ui;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +12,16 @@ import android.widget.TextView;
 import com.example.administrator.mytravel.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/10.
  */
 public class StrategyAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<StrategyInfo> list;
+    private List<StrategyInfo> list;
 
-    public StrategyAdapter(Context context, ArrayList<StrategyInfo> list) {
+    public StrategyAdapter(Context context, List<StrategyInfo> list) {
         this.context = context;
         this.list = list;
     }
@@ -59,10 +60,10 @@ public class StrategyAdapter extends BaseAdapter {
         }
 
         /**设置TextView显示的内容，即我们存放在动态数组中的数据*/
-        holder.tv_title.setText("用户："+"孙悟空");
+        holder.tv_title.setText("用户："+list.get(position).getUsername());
         holder.tv_username.setText("攻略标题："+list.get(position).getStrategyTitle());
 
-        Picasso.with(context).load(list.get(position).getImageUri()).into(holder.iv_img);
+        Picasso.with(context).load(Uri.parse(list.get(position).getStrategyImageUri())).into(holder.iv_img);
 
         return convertView;
     }

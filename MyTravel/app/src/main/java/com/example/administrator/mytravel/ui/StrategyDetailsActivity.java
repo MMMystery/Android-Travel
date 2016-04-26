@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.mytravel.R;
+import com.example.administrator.mytravel.dao.StrategyDAO;
 import com.squareup.picasso.Picasso;
 
 public class StrategyDetailsActivity extends AppCompatActivity {
@@ -20,6 +21,8 @@ public class StrategyDetailsActivity extends AppCompatActivity {
 
     private TextView tv_content;
     private ImageView detail_iv_img;
+
+    StrategyDAO strategyDAO = new StrategyDAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +54,12 @@ public class StrategyDetailsActivity extends AppCompatActivity {
         });
 
         Bundle bundle = this.getIntent().getExtras();
-        String title  = bundle.getString("title");
-        String address  = bundle.getString("address");
-        String num  = bundle.getString("num");
-        String time  = bundle.getString("time");
-        String content  = bundle.getString("content");
-        Uri uri  = Uri.parse(bundle.getString("uri"));
+        String _id  = bundle.getString("_id");
+        StrategyInfo strategyInfo = strategyDAO.find(Integer.parseInt(_id));
 
-        tv_title.setText(title);
-        tv_content.setText(content);
-        Picasso.with(this).load(uri).into(detail_iv_img);
+        tv_title.setText(strategyInfo.getStrategyTitle());
+        tv_content.setText(strategyInfo.getStrategyContent());
+
+        Picasso.with(this).load(Uri.parse(strategyInfo.getStrategyImageUri())).into(detail_iv_img);
     }
 }

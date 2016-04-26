@@ -1,14 +1,31 @@
 package com.example.administrator.mytravel.ui;
 
-import android.net.Uri;
-
 /**
  * Created by Administrator on 2016/4/10.
  */
 public class StrategyInfo {
     private String strategyTitle;
     private String strategyContent;
-    private Uri imageUri;
+    private int _id;
+    private String username;
+    private String strategyImageUri;
+
+    public StrategyInfo(int _id,String username ,String strategyTitle,String strategyContent, String strategyImageUri) {
+        this._id = _id;
+        this.username = username;
+        this.strategyTitle = strategyTitle;
+        this.strategyContent = strategyContent;
+        this.strategyImageUri = strategyImageUri;
+
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getStrategyTitle() {
         return strategyTitle;
@@ -26,14 +43,19 @@ public class StrategyInfo {
         this.strategyContent = strategyContent;
     }
 
-    public Uri getImageUri() {
-        return imageUri;
+    public int get_id() {
+        return _id;
     }
 
-    public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri;
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
+    public String getStrategyImageUri() {
+        return strategyImageUri;
+    }
 
-
+    public void setStrategyImageUri(String strategyImageUri) {
+        this.strategyImageUri = strategyImageUri;
+    }
 }

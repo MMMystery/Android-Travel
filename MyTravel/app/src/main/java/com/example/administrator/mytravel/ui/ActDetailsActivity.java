@@ -16,7 +16,6 @@ public class ActDetailsActivity extends AppCompatActivity {
     private TextView topBar_tv_title;
     private Button topBar_bt_right;
     private Button topBar_bt_left;
-    private ActInfo actInfo;
     private TextView tv_people;
     private TextView tv_address;
     private TextView tv_num;
