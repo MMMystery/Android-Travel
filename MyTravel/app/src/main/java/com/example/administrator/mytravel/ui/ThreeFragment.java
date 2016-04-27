@@ -1,6 +1,7 @@
 package com.example.administrator.mytravel.ui;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThreeFragment extends Fragment {
+public class ThreeFragment extends Fragment implements View.OnClickListener{
 
     private TextView topBar_tv_title;
     private Button topBar_bt_right;
@@ -53,6 +54,8 @@ public class ThreeFragment extends Fragment {
         topBar_bt_left = (Button) view.findViewById(R.id.topbar_btn_left);
         ll_actImages = (LinearLayout) view.findViewById(R.id.center_ll_actImages);
         ll_strategyImages = (LinearLayout) view.findViewById(R.id.center_ll_strategyImages);
+        ll_actImages.setOnClickListener(this);
+        ll_strategyImages.setOnClickListener(this);
         topBar_tv_title.setText("个人中心");
         tv_one.setText(String.valueOf(SPUtils.get(getActivity(), "username", "小包子")));
 
@@ -99,4 +102,19 @@ public class ThreeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.center_ll_actImages:
+                Intent intent1 = new Intent(getActivity(),ActListActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.center_ll_strategyImages:
+                Intent intent2 = new Intent(getActivity(),StrategyListActivity.class);
+                startActivity(intent2);
+                break;
+            default:
+                break;
+        }
+    }
 }
